@@ -2,44 +2,35 @@
 <html>
 	<head>
 		<title>Pitch Detector</title>
-		<style>
-			body { font: 14pt Arial, sans-serif;}
-			#note { font-size: 164px; }
-			.droptarget { background-color: #348781}
-			div.confident { color: black; }
-			div.vague { color: lightgrey; }
-			#note { display: inline-block; height:180px; text-align: left;}
-
-			#detector { width: 300px; height: 300px; border: 4px solid gray; border-radius: 8px; text-align: center; padding-top: 10px;}
-			#output { width: 300px; height: 42px; }
-			#flat { display: none; }
-			#sharp { display: none; }
-			.flat #flat { display: inline; }
-			.sharp #sharp { display: inline; }
-		</style>
+		<link rel="stylesheet" href="/css/master.css">
+		<link rel="stylesheet" href="/css/flexbox.min.css">
 	</head>
 	<body>
 		<script src="js/pitchdetect.js"></script>
+		<script src="./js/string.js" charset="utf-8"></script>
+		<script src="./js/note.js" charset="utf-8"></script>
+		<script src="./js/notePlayer.js" charset="utf-8"></script>
 
-		<p>
-			<button onclick="this.innerText = togglePlayback()">use demo audio</button>
-			<button onclick="toggleLiveInput()">use live input</button>
-			<button onclick="toggleOscillator()">use oscillator</button>
-			<!-- <button onclick="updatePitch(0);">sample</button> -->
-		</p>
+		<div class="background">
+			<div class="row justifyCenter marginTop2">
+				<button onclick="toggleLiveInput()">use live input</button>
+				<button onclick="toggleOscillator()">use oscillator</button>
+			</div>
 
-		<div id="detector" class="vague">
-			<div class="pitch"><span id="pitch">--</span>Hz</div>
-			<div class="note"><span id="note">--</span></div>
-			<canvas id="output" width=300 height=42></canvas>
-			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents &#9837;</span><span id="sharp">cents &#9839;</span></div>
+			<div class="row justifyCenter marginTop1">
+				<div id="detector" class="vague">
+					<div class="pitch"><span id="pitch">--</span>Hz</div>
+					<div class="note"><span id="note">--</span></div>
+					<canvas id="output" width=300 height=42></canvas>
+					<div id="detune"><span id="detune_amt">--</span><span id="flat">cents &#9837;</span><span id="sharp">cents &#9839;</span></div>
+				</div>
+			</div>
+
+			<div class="row justifyCenter marginTop3">
+				<canvas id="backgroundCanvas" class="notes" style="position: absolute"; width="1600" height="500"></canvas>
+		        <canvas id="canvas" class="notes" style="position: absolute"; width="1600" height="500"></canvas>
+			</div>
 		</div>
-
-        <script src="./string.js" charset="utf-8"></script>
-        <script src="./note.js" charset="utf-8"></script>
-		<script src="./notePlayer.js" charset="utf-8"></script>
-
-        <canvas id="canvas" width="1600" height="500"></canvas>
 
         <script type="text/javascript">
 
@@ -64,13 +55,15 @@
             var tempo = 60;
 
             // Global timer for new chords and notes to be put into played
-            var globalTime = new Date();
+            var globalTime = performance.now();
 			// initialized when game is pauzed by pressing spacebar
             var pauzeDate;
 
                 document.addEventListener("keydown",keyPush);
                 canv=document.getElementById("canvas");
+				backgroundCanvas = document.getElementById("backgroundCanvas");
                 ctx=canv.getContext("2d");
+				bctx=backgroundCanvas.getContext("2d");
                 setup();
 
 
@@ -83,14 +76,12 @@
             }
 
             function setup() {
-              background = new Image();
-              background.src = "./background.png";
-              Ebig    = new String("Ebig", canvas, ctx, 140, "grey");
-              A       = new String("A", canvas, ctx, 200, "rgb(194, 192, 192)");
-              D       = new String("D", canvas, ctx, 260, "rgb(201, 201, 201)");
-              G       = new String("G", canvas, ctx, 320, "rgb(215, 215, 149)");
-              B       = new String("B", canvas, ctx, 380, "rgba(215, 215, 149, 0.75)");
-              Esmall  = new String("Esmall", canvas, ctx, 440, "rgba(215, 215, 149, 0.50)");
+              Ebig    = new String("Ebig", canvas, bctx, 140, "grey");
+              A       = new String("A", canvas, bctx, 200, "rgb(194, 192, 192)");
+              D       = new String("D", canvas, bctx, 260, "rgb(201, 201, 201)");
+              G       = new String("G", canvas, bctx, 320, "rgb(215, 215, 149)");
+              B       = new String("B", canvas, bctx, 380, "rgba(215, 215, 149, 0.75)");
+              Esmall  = new String("Esmall", canvas, bctx, 440, "rgba(215, 215, 149, 0.50)");
 
               // Create the notePlayer that plays all of the notes.
               notePlayer = new notePlayer();
@@ -129,6 +120,8 @@
 
               clearCanvas();
 
+			  setBackground();
+
               chords = [
                 // new musicNote("Em", 4), new musicNote("G", 4), new musicNote("D", 4), new musicNote("A", 4),
                 // new musicNote("Em", 4), new musicNote("G", 4), new musicNote("D", 4), new musicNote("A", 4),
@@ -137,20 +130,22 @@
               chordsInPlay = [];
             }
 
-            function song() {
-
-              if(!pause) {
-                notePlayer.addNotesInPlay();
-                // Clear the canvas for the next drawing cycle;
-                clearCanvas();
-
-                // Draw the guitar strings onto the screen.
+			function setBackground() {
+				// Draw the guitar strings onto the screen.
                 Ebig.drawString();
                 A.drawString();
                 D.drawString();
                 G.drawString();
                 B.drawString();
                 Esmall.drawString();
+			}
+
+            function song() {
+
+              if(!pause) {
+                notePlayer.addNotesInPlay();
+                // Clear the canvas for the next drawing cycle;
+                clearCanvas();
 
                 // Draw the line the player follows.
                 drawPlayLine();
@@ -169,61 +164,61 @@
 
             // Pushes chords into the chordsInPlay list at the right moment.
             // After this function the *moveChords()* function takes over.
-            function drawChords() {
-              chords.forEach((chord, index) => {
-                if(new Date() >= globalTime) {
-                  addSecondsToGlobalTimer(chord.timeInterval);
-                  chord.date = new Date();
-                  chord.endDate = new Date();
-                  chord.endDate.setSeconds(chord.endDate.getSeconds() + calculateTempo(chord.timeInterval));
-                  chord.number = 0;
-                  chordsInPlay.push(chord);
-                  chords.splice(index, 1);
-                }
-              });
-            }
-
-            function moveChords() {
-              // chord.position.x + chord.position.drawSize is the right most position of a chord block.
-              chordsInPlay.forEach((chord, index) => {
-                colorByName(chord);
-                if(chord.date < chord.endDate) {
-                  chord.position.drawSize += pixelSpeed;
-                  ctx.fillRect(chord.position.x, chord.position.y, chord.position.drawSize, canv.height);
-                  chord.date = new Date();
-                  chord.number -= pixelSpeed / 2;
-                }
-                else {
-                  // chord.position.drawSize -= 2;
-                  ctx.fillRect(chord.position.x, chord.position.y, chord.position.drawSize, canv.height);
-                }
-
-                // If a chord is passing the play line, draw the play line a different color.
-                if(chord.position.x < 300 && chord.position.x + chord.position.drawSize > 305) {
-                  drawPlayLine("rgb(179, 140, 120)");
-                }
-
-                writeChordName(chord);
-                setChordPosition(chord);
-                removeChord(chord, index);
-              });
-            }
-
-            function writeChordName(chord) {
-              ctx.fillStyle = "white";
-              ctx.textAlign = "center";
-              ctx.fillText(chord.name, chord.position.x + chord.position.drawSize + chord.number, (chord.position.y + canv.height) / 2, canv.width, canv.height);
-            }
-
-            function setChordPosition(chord) {
-              chord.position.x -= pixelSpeed;
-            }
-
-            function removeChord(chord, index) {
-              if(chord.position.x + chord.position.drawSize <= -1000) {
-                chordsInPlay.splice(index, 1);
-              }
-            }
+            // function drawChords() {
+            //   chords.forEach((chord, index) => {
+            //     if(performance.now() >= globalTime) {
+            //       addSecondsToGlobalTimer(chord.timeInterval);
+            //       chord.date = new Date();
+            //       chord.endDate = new Date();
+            //       chord.endDate.setSeconds(chord.endDate.getSeconds() + calculateTempo(chord.timeInterval));
+            //       chord.number = 0;
+            //       chordsInPlay.push(chord);
+            //       chords.splice(index, 1);
+            //     }
+            //   });
+            // }
+			//
+            // function moveChords() {
+            //   // chord.position.x + chord.position.drawSize is the right most position of a chord block.
+            //   chordsInPlay.forEach((chord, index) => {
+            //     colorByName(chord);
+            //     if(chord.date < chord.endDate) {
+            //       chord.position.drawSize += pixelSpeed;
+            //       ctx.fillRect(chord.position.x, chord.position.y, chord.position.drawSize, canv.height);
+            //       chord.date = new Date();
+            //       chord.number -= pixelSpeed / 2;
+            //     }
+            //     else {
+            //       // chord.position.drawSize -= 2;
+            //       ctx.fillRect(chord.position.x, chord.position.y, chord.position.drawSize, canv.height);
+            //     }
+			//
+            //     // If a chord is passing the play line, draw the play line a different color.
+            //     if(chord.position.x < 300 && chord.position.x + chord.position.drawSize > 305) {
+            //       drawPlayLine("rgb(179, 140, 120)");
+            //     }
+			//
+            //     writeChordName(chord);
+            //     setChordPosition(chord);
+            //     removeChord(chord, index);
+            //   });
+            // }
+			//
+            // function writeChordName(chord) {
+            //   ctx.fillStyle = "white";
+            //   ctx.textAlign = "center";
+            //   ctx.fillText(chord.name, chord.position.x + chord.position.drawSize + chord.number, (chord.position.y + canv.height) / 2, canv.width, canv.height);
+            // }
+			//
+            // function setChordPosition(chord) {
+            //   chord.position.x -= pixelSpeed;
+            // }
+			//
+            // function removeChord(chord, index) {
+            //   if(chord.position.x + chord.position.drawSize <= -1000) {
+            //     chordsInPlay.splice(index, 1);
+            //   }
+            // }
 
             function drawPlayLine(color) {
               if(color) {
@@ -237,11 +232,10 @@
 
             function clearCanvas() {
               ctx.clearRect(0,0,canv.width,canv.height);
-              ctx.drawImage(background,0,0);
             }
 
             function addSecondsToGlobalTimer(seconds) {
-              globalTime.setSeconds(globalTime.getSeconds() + calculateTempo(seconds));
+				globalTime = performance.now() + calculateTempo(seconds);
             }
 
             function calculateTempo(seconds) {
@@ -284,24 +278,24 @@
                   case 32:
                       if(!pause) {
                         pause = true;
-                        pauzeDate = new Date();
+                        pauzeDate = performance.now();
                       }
                       else {
-                        var pauzedTime = new Date();
+                        var pauzedTime = performance.now();
 
 						// Calculate time the game was pauzed for.
-                        pauzedTime.setTime(pauzedTime.valueOf() - pauzeDate.valueOf());
+                        pauzedTime -= pauzeDate;
 
 						// Set new globalTime. This has to be done this way since new notes are created based the time since the previous note was played.
-                        globalTime.setTime(globalTime.valueOf() + pauzedTime.valueOf());
+                        globalTime += pauzedTime;
                         pause = false;
 
 						// Restart the loop.
 						requestAnimationFrame(song);
                       }
                       break;
-              }
-            }
+	              }
+	            }
 
             requestAnimationFrame(song);
         </script>

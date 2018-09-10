@@ -4,3 +4,4 @@ Includes tempo.
 
 Run using an Http server.
 In Linux just type: python -m SimpleHTTPServer 8000, inside the home dir.
+Also hosted on: https://l-u-n-a.github.io/musicCreator

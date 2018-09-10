@@ -5,16 +5,13 @@ function notePlayer() {
   this.notesInPlay = [];
 
   this.addSecondsToGlobalTimer = function(seconds) {
-    globalTime.setTime(globalTime.valueOf() + calculateTempo(seconds * 1000));
+    globalTime += calculateTempo(seconds * 1000);
   };
 
   this.addNotesInPlay = function(note) {
     this.notes.forEach((note, index) => {
-      let tempDate = new Date();
-      let someTime = tempDate.getMilliseconds() + (tempDate.getSeconds() * 10000);
 
-      let globalTimeInMilli = globalTime.getMilliseconds() + (globalTime.getSeconds() * 10000);
-      if(new Date() >= globalTime) {
+      if(performance.now() >= globalTime) {
         this.notesInPlay.push(note);
         // Remove the note after adding it, or it will be added multible times and speed up.
         this.notes.splice(index, 1);
