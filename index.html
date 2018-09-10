@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="./css/master.css">
 		<link rel="stylesheet" href="./css/flexbox.min.css">
 
-		<meta name="viewport" content="width=1920, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
 		<script src="js/pitchdetect.js"></script>
@@ -27,14 +27,16 @@
 					<div id="detune"><span id="detune_amt">--</span><span id="flat">cents &#9837;</span><span id="sharp">cents &#9839;</span></div>
 				</div>
 			</div>
+		</div>
 
-			<div class="row justifyCenter marginTop3">
-				<canvas id="backgroundCanvas" class="notes" style="position: absolute"; width="1600" height="500"></canvas>
-		        <canvas id="canvas" class="notes" style="position: absolute"; width="1600" height="500"></canvas>
-			</div>
+		<div class="row marginTop3">
+			<canvas id="backgroundCanvas" class="notes" style="position: absolute";></canvas>
+			<canvas id="canvas" class="notes" style="position: absolute";></canvas>
 		</div>
 
         <script type="text/javascript">
+
+		console.log(innerWidth);
 
             // Guitar strings
             var Ebig;
@@ -64,6 +66,13 @@
                 document.addEventListener("keydown",keyPush);
                 canv=document.getElementById("canvas");
 				backgroundCanvas = document.getElementById("backgroundCanvas");
+
+				canv.width = window.innerWidth;
+				canv.height = 500;
+				backgroundCanvas.width = window.innerWidth;
+				backgroundCanvas.height = 500;
+
+
                 ctx=canv.getContext("2d");
 				bctx=backgroundCanvas.getContext("2d");
                 setup();
