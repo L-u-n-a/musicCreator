@@ -9,22 +9,24 @@ function notePlayer() {
   };
 
   this.addNotesInPlay = function(note) {
-    this.notes.forEach((note, index) => {
 
       if(performance.now() >= globalTime) {
-        this.notesInPlay.push(note);
+          if(this.notes.length > 0) {
+              let nextNote = this.notes[0]
+              this.notesInPlay.push(nextNote);
 
-        this.addSecondsToGlobalTimer(note.time);
+              this.addSecondsToGlobalTimer(nextNote.time);
 
-        // Remove the note after adding it, or it will be added multible times and speed up.
-        this.notes.splice(index, 1);
+              // Remove the note after adding it, or it will be added multible times and speed up.
+              this.notes.splice(0, 1);
+          }
       }
-    });
   };
 
   this.removeNote = function(note, index) {
     if(note.x <= -100) {
       this.notesInPlay.splice(index, 1);
+      console.log("Removed!")
     }
   };
 
@@ -32,7 +34,10 @@ function notePlayer() {
     this.notesInPlay.forEach((note) => {
       note.drawNote();
       note.x -= 2;
-      this.removeNote(note);
     });
+
+    // Check if the first note in the list is ready to be removed.
+    let nextNote = this.notesInPlay[0];
+    this.removeNote(nextNote);
   };
 }
