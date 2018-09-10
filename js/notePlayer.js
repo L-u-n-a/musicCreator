@@ -13,9 +13,11 @@ function notePlayer() {
 
       if(performance.now() >= globalTime) {
         this.notesInPlay.push(note);
+
+        this.addSecondsToGlobalTimer(note.time);
+
         // Remove the note after adding it, or it will be added multible times and speed up.
         this.notes.splice(index, 1);
-        this.addSecondsToGlobalTimer(note.time);
       }
     });
   };

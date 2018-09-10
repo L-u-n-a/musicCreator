@@ -63,10 +63,6 @@ function Note(finger, length, time, canvas, ctx, y, note) {
     }
 
     ctx.stroke();
-    ctx.setLineDash([5,5])
-    ctx.moveTo(0, 200);
-    ctx.lineTo(200,0);
-    ctx.stroke();
     ctx.fill();
     // ctx.fillStyle = this.color;
     // ctx.fillRect(this.x, this.drawHeight, this.drawLength, this.height);
