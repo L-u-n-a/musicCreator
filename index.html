@@ -69,7 +69,7 @@
 				// Set width of canvasses to screen size
 				canv.width = window.innerWidth;
 				canv.height = 500;
-				backgroundCanvas.width = window.innerWidth;
+				backgroundCanvas.width = canv.width;
 				backgroundCanvas.height = 500;
 
 
@@ -160,9 +160,10 @@
             function song() {
 
               if(!pause) {
-                notePlayer.addNotesInPlay();
                 // Clear the canvas for the next drawing cycle;
                 clearCanvas();
+
+                notePlayer.addNotesInPlay();
 
                 // Draw the line the player follows.
                 drawPlayLine();
@@ -244,7 +245,7 @@
               else {
                 ctx.fillStyle = "grey";
               }
-              ctx.fillRect(canvas.width / 9, 30, 5, canvas.height);
+              ctx.fillRect(canv.width / 9, 30, 5, canvas.height);
             }
 
             function clearCanvas() {
@@ -261,33 +262,33 @@
             }
 
 			// The colours of chords.
-            function colorByName(chord) {
-              switch(chord.name) {
-                case "C":
-                  ctx.fillStyle = "blue";
-                  break;
-                case "D":
-                  ctx.fillStyle = "red";
-                  break;
-                case "F":
-                  ctx.fillStyle = "purple";
-                  break;
-                case "G":
-                  ctx.fillStyle = "green";
-                  break;
-                case "Am":
-                  ctx.fillStyle = "orange";
-                  break;
-                case "E":
-                  ctx.fillStyle = "pink";
-                  break;
-                case "A":
-                  ctx.fillStyle = "#5cd3b8";
-                  break;
-                case "Em":
-                  ctx.fillStyle = "#d3d35c"
-              }
-            }
+            // function colorByName(chord) {
+            //   switch(chord.name) {
+            //     case "C":
+            //       ctx.fillStyle = "blue";
+            //       break;
+            //     case "D":
+            //       ctx.fillStyle = "red";
+            //       break;
+            //     case "F":
+            //       ctx.fillStyle = "purple";
+            //       break;
+            //     case "G":
+            //       ctx.fillStyle = "green";
+            //       break;
+            //     case "Am":
+            //       ctx.fillStyle = "orange";
+            //       break;
+            //     case "E":
+            //       ctx.fillStyle = "pink";
+            //       break;
+            //     case "A":
+            //       ctx.fillStyle = "#5cd3b8";
+            //       break;
+            //     case "Em":
+            //       ctx.fillStyle = "#d3d35c"
+            //   }
+            // }
 
             // Used to pause the game.
             function keyPush(evt) {

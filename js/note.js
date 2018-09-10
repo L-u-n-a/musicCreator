@@ -24,7 +24,7 @@ function Note(finger, length, time, canvas, ctx, y, note) {
 
   this.drawHeight = this.y;
   this.writeHeight = this. y + 7;
-  this.x = canvas.width;
+  this.x = this.canvas.width;
 
   this.fingerColor = function() {
     switch(this.finger) {
@@ -52,7 +52,6 @@ function Note(finger, length, time, canvas, ctx, y, note) {
 
   this.drawNote = function() {
     ctx.fillStyle = this.color;
-    ctx.setLineDash([])
     ctx.beginPath();
 
     if(this.length === 0.5) {
