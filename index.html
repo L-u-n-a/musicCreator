@@ -131,6 +131,10 @@
             }
 
 			function setBackground() {
+				// Set background color
+				bctx.fillStyle = "#006747";
+				bctx.fillRect(0, 0, canvas.width, canvas.height);
+
 				// Draw the guitar strings onto the screen.
                 Ebig.drawString();
                 A.drawString();
@@ -138,6 +142,8 @@
                 G.drawString();
                 B.drawString();
                 Esmall.drawString();
+
+				console.log("yay");
 			}
 
             function song() {
