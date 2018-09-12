@@ -5,8 +5,6 @@ Includes tempo.
 
 ## Running the site
 
-###### Currently only runs in Firefox!
-
 Run using an Http server.<br />
 In Linux just type: python -m SimpleHTTPServer 8000, inside the home dir.
 Then connect to localhost:8000 inside your browser.<br />
