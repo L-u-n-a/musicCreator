@@ -1,6 +1,7 @@
 import { notePlayer } from './notePlayer.js';
 import { Songs } from './../songs/song.js';
 import { playLine } from './playLine.js';
+import { String } from './string.js'
 
 // Guitar strings
 var Ebig;
