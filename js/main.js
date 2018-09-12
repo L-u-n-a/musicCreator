@@ -80,7 +80,7 @@ class Main {
     // The game loop.
     song() {
 
-        if(!this.pause) {
+        if (!this.pause) {
             // Clear the canvas for the next drawing cycle;
             this.clearCanvas();
 
@@ -110,8 +110,9 @@ class Main {
                 if (!this.pause) {
                     this.pause = true;
 
-                    // Start timer when game is paused
+                    // Start a timer when game is paused
                     performance.mark("pause-start");
+
                 // Unpause game
                 } else {
 
@@ -120,9 +121,9 @@ class Main {
 
                     // Measure time game was paused for
                     performance.measure(
-                       "pause",
-                       "pause-start",
-                       "pause-end"
+                        "pause",
+                        "pause-start",
+                        "pause-end"
                     );
 
                     // Retrieve paused time measured above
