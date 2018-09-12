@@ -22,14 +22,11 @@ class Main {
         // initialized when game is pauzed by pressing spacebar
         this.pauzeDate;
 
-        // global time used for played notes and pausing the game.
-        this.globalTime = performance.now();
-
         // The tempo the song is played at (BPM)
         this.tempo = 60;
 
         // This class keeps track of the current song and notes that need to be put in play.
-        this.theNotePlayer = new notePlayer(this.globalTime, this.tempo);
+        this.theNotePlayer = new notePlayer(this.tempo);
         this.line = new playLine(this.canv, this.ctx);
         this.availableSongs = new Songs(this.line);
 
@@ -129,13 +126,15 @@ class Main {
                     );
 
                     // Retrieve paused time
-                    var measure = performance.getEntriesByName("pause")[0];
-
-                    console.log(this.globalTime);
-                    console.log(this.globalTime + measure.duration);
+                    var measure = performance.getEntriesByName("pause")[0].duration;
 
                     // Set new globalTime. This has to be done this way since new notes are created based the time since the previous note was played.
-                    this.globalTime = this.globalTime += measure.duration;
+                    this.theNotePlayer.setGlobalTime(this.theNotePlayer.getGlobalTime() + measure);
+
+                    // Clear timer results so game can be paused again later.
+                    performance.clearMarks();
+                    performance.clearMeasures();
+
                     this.pause = false;
 
                     // Restart the loop.

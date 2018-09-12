@@ -1,10 +1,10 @@
 /*jshint esversion: 6*/
 export class notePlayer {
 
-    constructor(globalTime, tempo) {
+    constructor(tempo) {
         this.notes = [];
         this.notesInPlay = [];
-        this.globalTime = globalTime;
+        this.globalTime = performance.now();
         this.tempo = tempo;
     }
 
@@ -55,5 +55,12 @@ export class notePlayer {
 
     setNotes(notes) {
         this.notes = notes;
+    }
+
+    getGlobalTime() {
+        return this.globalTime;
+    }
+    setGlobalTime(globalTime) {
+        this.globalTime = globalTime;
     }
 }
