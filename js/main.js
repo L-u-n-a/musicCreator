@@ -109,9 +109,11 @@ class Main {
         switch (evt.keyCode) {
             // Case 32 === spacebar
             case 32:
+                // Pause game
                 if (!this.pause) {
                     this.pause = true;
                     this.pauzeDate = performance.now();
+                // Unpause game
                 } else {
                     let pauzedTime = performance.now();
 
