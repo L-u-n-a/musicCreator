@@ -13,10 +13,8 @@ class Main {
         this.G;
         this.B;
         this.Esmall;
-
         this.pause = false;
         this.background;
-        this.pixelSpeed = 3;
 
         this.canv = document.getElementById("canvas");
         this.ctx = this.canv.getContext("2d");
