@@ -101,6 +101,7 @@ class Main {
     // Used to pause the game.
     keyPush(evt) {
         switch (evt.keyCode) {
+            // Case 32 === spacebar
             case 32:
                 if (!this.pause) {
                     this.pause = true;
