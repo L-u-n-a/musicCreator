@@ -3,7 +3,6 @@ export class playLine {
     constructor(canv, ctx) {
         this.ctx = ctx;
         this.canv = canv;
-        console.log(ctx);
     }
 
     draw(color) {

@@ -83,7 +83,7 @@ export class Note {
             this.color = "green";
         }
     }
-    if(this.x - 15 < 285 && this.x + 15 > 290 && this.correct === false) {
+    if(this.x - 15 < (this.canvas.width / 9) && this.x + 15 > (this.canvas.width / 9) && this.correct === false) {
         return this.color = "red";
     }
   };
