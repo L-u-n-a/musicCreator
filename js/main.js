@@ -46,15 +46,15 @@ class Main {
         backgroundCanvas.width = this.canv.width;
         backgroundCanvas.height = 500;
 
-        this.Ebig    = new String("Ebig", backgroundCanvas, bctx, 140, "grey");
-        this.A       = new String("A", backgroundCanvas, bctx, 200, "rgb(194, 192, 192)");
-        this.D       = new String("D", backgroundCanvas, bctx, 260, "rgb(201, 201, 201)");
-        this.G       = new String("G", backgroundCanvas, bctx, 320, "rgb(215, 215, 149)");
-        this.B       = new String("B", backgroundCanvas, bctx, 380, "rgba(215, 215, 149, 0.75)");
-        this.Esmall  = new String("Esmall", backgroundCanvas, bctx, 440, "rgba(215, 215, 149, 0.50)");
+        this.Ebig = new String("Ebig", backgroundCanvas, bctx, 140, "grey");
+        this.A = new String("A", backgroundCanvas, bctx, 200, "rgb(194, 192, 192)");
+        this.D = new String("D", backgroundCanvas, bctx, 260, "rgb(201, 201, 201)");
+        this.G = new String("G", backgroundCanvas, bctx, 320, "rgb(215, 215, 149)");
+        this.B = new String("B", backgroundCanvas, bctx, 380, "rgba(215, 215, 149, 0.75)");
+        this.Esmall = new String("Esmall", backgroundCanvas, bctx, 440, "rgba(215, 215, 149, 0.50)");
 
         // Add a song to the note player.
-        this.theNotePlayer.setNotes(this.availableSongs.marryHadALittleLamp(this.canv,this.ctx,this.Ebig,this.A,this.D,this.G,this.B,this.Esmall));
+        this.theNotePlayer.setNotes(this.availableSongs.marryHadALittleLamp(this.canv, this.ctx, this.Ebig, this.A, this.D, this.G, this.B, this.Esmall));
 
         this.clearCanvas();
 
@@ -81,7 +81,7 @@ class Main {
 
     song() {
 
-      // if(!this.pause) {
+        // if(!this.pause) {
         // Clear the canvas for the next drawing cycle;
         this.clearCanvas();
 
@@ -93,37 +93,36 @@ class Main {
         this.theNotePlayer.moveNotes();
 
         requestAnimationFrame(this.song.bind(this));
-      // }
+        // }
     }
 
     clearCanvas() {
-      this.ctx.clearRect(0,0,this.canv.width,this.canv.height);
+        this.ctx.clearRect(0, 0, this.canv.width, this.canv.height);
     }
 
     // Used to pause the game.
     keyPush(evt) {
-      switch(evt.keyCode) {
-          case 32:
-              if(!this.pause) {
-                this.pause = true;
-                this.pauzeDate = performance.now();
-              }
-              else {
-                let pauzedTime = performance.now();
+        switch (evt.keyCode) {
+            case 32:
+                if (!this.pause) {
+                    this.pause = true;
+                    this.pauzeDate = performance.now();
+                } else {
+                    let pauzedTime = performance.now();
 
-                // Calculate time the game was pauzed for.
-                pauzedTime -= this.pauzeDate;
+                    // Calculate time the game was pauzed for.
+                    pauzedTime -= this.pauzeDate;
 
-                // Set new globalTime. This has to be done this way since new notes are created based the time since the previous note was played.
-                this.globalTime += pauzedTime;
-                this.pause = false;
+                    // Set new globalTime. This has to be done this way since new notes are created based the time since the previous note was played.
+                    this.globalTime += pauzedTime;
+                    this.pause = false;
 
-                // Restart the loop.
-                requestAnimationFrame(this.song.bind(this));
-              }
-              break;
-          }
+                    // Restart the loop.
+                    requestAnimationFrame(this.song.bind(this));
+                }
+                break;
         }
+    }
 }
 
 let game = new Main();

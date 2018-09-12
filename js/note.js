@@ -24,7 +24,7 @@ export class Note {
         this.writeLength = length * 50;
 
         this.drawHeight = this.y;
-        this.writeHeight = this. y + 7;
+        this.writeHeight = this.y + 7;
         this.x = this.canvas.width;
 
         // The playerLine
@@ -45,10 +45,9 @@ export class Note {
         this.ctx.fillStyle = this.color;
         this.ctx.beginPath();
 
-        if(this.length === 0.5) {
+        if (this.length === 0.5) {
             this.ctx.ellipse(this.x, this.drawHeight, 15, 21, 0, 0, 7);
-        }
-        else if(this.length === 0.25) {
+        } else if (this.length === 0.25) {
             this.ctx.ellipse(this.x, this.drawHeight, 12, 21, 0, 0, 7);
         }
 
@@ -57,14 +56,14 @@ export class Note {
         this.writeFinger(this.finger);
 
         // If the note touches the playLine, change the color of the playLine.
-        if(this.x - 15 < 300 && this.x + 15 > 305) {
+        if (this.x - 15 < 300 && this.x + 15 > 305) {
             this.playLine.draw("white");
-                if(currentNote === this.note) {
-                    this.correct = true;
-                    this.color = "green";
-                }
+            if (currentNote === this.note) {
+                this.correct = true;
+                this.color = "green";
+            }
         }
-        if(this.x - 15 < (this.canvas.width / 9) && this.x + 15 > (this.canvas.width / 9) && this.correct === false) {
+        if (this.x - 15 < (this.canvas.width / 9) && this.x + 15 > (this.canvas.width / 9) && this.correct === false) {
             return this.color = "red";
         }
     };
