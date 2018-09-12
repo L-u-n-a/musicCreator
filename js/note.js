@@ -34,57 +34,38 @@ export class Note {
         this.color = 'black';
     }
 
-  fingerColor() {
-    switch(this.finger) {
-      case 0:
-        return "black";
-      case 1:
-        return "purple";
-      case 2:
-        return "green";
-      case 3:
-        return "blue";
-      case 4:
-        return "red";
-    }
-  };
+    writeFinger(finger) {
+        this.ctx.font = "20px Arial";
+        this.ctx.fillStyle = "white";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText(this.finger, this.x, this.writeHeight, this.canvas.width, this.canvas.height);
+    };
 
-  // this.color = this.fingerColor()
+    drawNote() {
+        this.ctx.fillStyle = this.color;
+        this.ctx.beginPath();
 
-  writeFinger(finger) {
-    this.ctx.font = "20px Arial";
-    this.ctx.fillStyle = "white";
-    this.ctx.textAlign = "center";
-    this.ctx.fillText(this.finger, this.x, this.writeHeight, this.canvas.width, this.canvas.height);
-  };
-
-  drawNote() {
-    this.ctx.fillStyle = this.color;
-    this.ctx.beginPath();
-
-    if(this.length === 0.5) {
-      this.ctx.ellipse(this.x, this.drawHeight, 15, 21, 0, 0, 7);
-    }
-    else if(this.length === 0.25) {
-      this.ctx.ellipse(this.x, this.drawHeight, 12, 21, 0, 0, 7);
-    }
-
-    this.ctx.stroke();
-    this.ctx.fill();
-    // this.ctx.fillStyle = this.color;
-    // this.ctx.fillRect(this.x, this.drawHeight, this.drawLength, this.height);
-    this.writeFinger(this.finger);
-
-    // If the note touches the playLine, change the color of the playLine.
-    if(this.x - 15 < 300 && this.x + 15 > 305) {
-      this.playLine.draw("white");
-        if(currentNote === this.note) {
-            this.correct = true;
-            this.color = "green";
+        if(this.length === 0.5) {
+            this.ctx.ellipse(this.x, this.drawHeight, 15, 21, 0, 0, 7);
         }
-    }
-    if(this.x - 15 < (this.canvas.width / 9) && this.x + 15 > (this.canvas.width / 9) && this.correct === false) {
-        return this.color = "red";
-    }
-  };
+        else if(this.length === 0.25) {
+            this.ctx.ellipse(this.x, this.drawHeight, 12, 21, 0, 0, 7);
+        }
+
+        this.ctx.stroke();
+        this.ctx.fill();
+        this.writeFinger(this.finger);
+
+        // If the note touches the playLine, change the color of the playLine.
+        if(this.x - 15 < 300 && this.x + 15 > 305) {
+            this.playLine.draw("white");
+                if(currentNote === this.note) {
+                    this.correct = true;
+                    this.color = "green";
+                }
+        }
+        if(this.x - 15 < (this.canvas.width / 9) && this.x + 15 > (this.canvas.width / 9) && this.correct === false) {
+            return this.color = "red";
+        }
+    };
 }
