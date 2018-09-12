@@ -118,14 +118,14 @@ class Main {
                     // Stop timer when game is continued
                     performance.mark("pause-end");
 
-                    // Measure pause time
+                    // Measure time game was paused for
                     performance.measure(
                        "pause",
                        "pause-start",
                        "pause-end"
                     );
 
-                    // Retrieve paused time
+                    // Retrieve paused time measured above
                     var measure = performance.getEntriesByName("pause")[0].duration;
 
                     // Set new globalTime. This has to be done this way since new notes are created based the time since the previous note was played.
