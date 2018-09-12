@@ -58,11 +58,12 @@ function setup() {
   B       = new String("B", canvas, bctx, 380, "rgba(215, 215, 149, 0.75)");
   Esmall  = new String("Esmall", canvas, bctx, 440, "rgba(215, 215, 149, 0.50)");
 
-  // The song.
+  // Add a song to the note player.
   theNotePlayer.setNotes(availableSongs.marryHadALittleLamp(canv,ctx,Ebig,A,D,G,B,Esmall));
 
   clearCanvas();
 
+  // The background load the background and strings. These are only loaded once this way.
   setBackground();
 }
 
@@ -96,16 +97,6 @@ function song() {
     requestAnimationFrame(song);
   }
 }
-
-// function drawPlayLine(color) {
-//   if(color) {
-//     ctx.fillStyle = color;
-//   }
-//   else {
-//     ctx.fillStyle = "grey";
-//   }
-//   ctx.fillRect(canv.width / 9, 30, 5, canvas.height);
-// }
 
 function clearCanvas() {
   ctx.clearRect(0,0,canv.width,canv.height);
