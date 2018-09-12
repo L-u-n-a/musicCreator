@@ -1,4 +1,4 @@
-import { Note } from './../js/note.js'
+import { Note } from './../note.js'
 
 export class Songs {
 

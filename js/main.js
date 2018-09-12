@@ -1,5 +1,5 @@
 import { notePlayer } from './notePlayer.js';
-import { Songs } from './../songs/song.js';
+import { Songs } from './songs/song.js';
 import { playLine } from './playLine.js';
 import { String } from './string.js';
 
@@ -81,7 +81,7 @@ class Main {
 
     song() {
 
-        // if(!this.pause) {
+        if(!this.pause) {
         // Clear the canvas for the next drawing cycle;
         this.clearCanvas();
 
@@ -93,7 +93,7 @@ class Main {
         this.theNotePlayer.moveNotes();
 
         requestAnimationFrame(this.song.bind(this));
-        // }
+        }
     }
 
     clearCanvas() {
