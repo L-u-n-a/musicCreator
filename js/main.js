@@ -112,16 +112,30 @@ class Main {
                 // Pause game
                 if (!this.pause) {
                     this.pause = true;
-                    this.pauzeDate = performance.now();
+
+                    // Start timer when game is paused
+                    performance.mark("pause-start");
                 // Unpause game
                 } else {
-                    let pauzedTime = performance.now();
 
-                    // Calculate time the game was pauzed for.
-                    pauzedTime -= this.pauzeDate;
+                    // Stop timer when game is continued
+                    performance.mark("pause-end");
+
+                    // Measure pause time
+                    performance.measure(
+                       "pause",
+                       "pause-start",
+                       "pause-end"
+                    );
+
+                    // Retrieve paused time
+                    var measure = performance.getEntriesByName("pause")[0];
+
+                    console.log(this.globalTime);
+                    console.log(this.globalTime + measure.duration);
 
                     // Set new globalTime. This has to be done this way since new notes are created based the time since the previous note was played.
-                    this.globalTime += pauzedTime;
+                    this.globalTime = this.globalTime += measure.duration;
                     this.pause = false;
 
                     // Restart the loop.
