@@ -82,17 +82,17 @@ class Main {
     song() {
 
         if(!this.pause) {
-        // Clear the canvas for the next drawing cycle;
-        this.clearCanvas();
+            // Clear the canvas for the next drawing cycle;
+            this.clearCanvas();
 
-        this.theNotePlayer.addNotesInPlay();
+            this.theNotePlayer.addNotesInPlay();
 
-        // Draw the line the player follows.
-        this.line.draw("grey");
+            // Draw the line the player follows.
+            this.line.draw("grey");
 
-        this.theNotePlayer.moveNotes();
+            this.theNotePlayer.moveNotes();
 
-        requestAnimationFrame(this.song.bind(this));
+            requestAnimationFrame(this.song.bind(this));
         }
     }
 
