@@ -1,5 +1,6 @@
 import { notePlayer } from './notePlayer.js';
 import { Songs } from './../songs/song.js';
+import { playLine } from './playLine.js';
 
 // Guitar strings
 var Ebig;
@@ -16,16 +17,20 @@ var pixelSpeed = 3;
 var chords = [];
 var chordsInPlay = [];
 
-var canv, ctx, bctx;
+var canv = document.getElementById("canvas");
+var ctx = canv.getContext("2d");
+var bctx = backgroundCanvas.getContext("2d");;
 
 // initialized when game is pauzed by pressing spacebar
 var pauzeDate;
 
 // This class keeps track of the current song and notes that need to be put in play.
 var theNotePlayer = new notePlayer(performance.now(), 60);
+var line = new playLine(canv, ctx);
+var availableSongs = new Songs(line);
+
 
     document.addEventListener("keydown",keyPush);
-    canv=document.getElementById("canvas");
     backgroundCanvas = document.getElementById("backgroundCanvas");
 
     // Set width of canvasses to screen size
@@ -33,10 +38,6 @@ var theNotePlayer = new notePlayer(performance.now(), 60);
     canv.height = 500;
     backgroundCanvas.width = canv.width;
     backgroundCanvas.height = 500;
-
-
-    ctx=canv.getContext("2d");
-    bctx=backgroundCanvas.getContext("2d");
     setup();
 
 
@@ -57,20 +58,11 @@ function setup() {
   Esmall  = new String("Esmall", canvas, bctx, 440, "rgba(215, 215, 149, 0.50)");
 
   // The song.
-  console.log(notePlayer);
-  console.log(Songs);
-  theNotePlayer.setNotes(Songs.prototype.marryHadALittleLamp(canv,ctx,Ebig,A,D,G,B,Esmall));
+  theNotePlayer.setNotes(availableSongs.marryHadALittleLamp(canv,ctx,Ebig,A,D,G,B,Esmall));
 
   clearCanvas();
 
   setBackground();
-
-  chords = [
-    // new musicNote("Em", 4), new musicNote("G", 4), new musicNote("D", 4), new musicNote("A", 4),
-    // new musicNote("Em", 4), new musicNote("G", 4), new musicNote("D", 4), new musicNote("A", 4),
-  ];
-
-  chordsInPlay = [];
 }
 
 function setBackground() {
@@ -96,7 +88,7 @@ function song() {
     theNotePlayer.addNotesInPlay();
 
     // Draw the line the player follows.
-    drawPlayLine();
+    line.draw("grey");
 
     theNotePlayer.moveNotes();
 
@@ -104,15 +96,15 @@ function song() {
   }
 }
 
-function drawPlayLine(color) {
-  if(color) {
-    ctx.fillStyle = color;
-  }
-  else {
-    ctx.fillStyle = "grey";
-  }
-  ctx.fillRect(canv.width / 9, 30, 5, canvas.height);
-}
+// function drawPlayLine(color) {
+//   if(color) {
+//     ctx.fillStyle = color;
+//   }
+//   else {
+//     ctx.fillStyle = "grey";
+//   }
+//   ctx.fillRect(canv.width / 9, 30, 5, canvas.height);
+// }
 
 function clearCanvas() {
   ctx.clearRect(0,0,canv.width,canv.height);
