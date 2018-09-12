@@ -1,3 +1,5 @@
+import {Songs} from './../songs/song.js';
+
 // Guitar strings
 var Ebig;
 var A;
@@ -131,73 +133,9 @@ function song() {
 
     notePlayer.moveNotes();
 
-    // Add the next chord to be played to the chordsInPlay list.
-    // drawChords();
-
-    // Draw and move the chords that have been drawn.
-    // moveChords();
-
     requestAnimationFrame(song);
   }
 }
-
-// Pushes chords into the chordsInPlay list at the right moment.
-// After this function the *moveChords()* function takes over.
-// function drawChords() {
-//   chords.forEach((chord, index) => {
-//     if(performance.now() >= globalTime) {
-//       addSecondsToGlobalTimer(chord.timeInterval);
-//       chord.date = new Date();
-//       chord.endDate = new Date();
-//       chord.endDate.setSeconds(chord.endDate.getSeconds() + calculateTempo(chord.timeInterval));
-//       chord.number = 0;
-//       chordsInPlay.push(chord);
-//       chords.splice(index, 1);
-//     }
-//   });
-// }
-//
-// function moveChords() {
-//   // chord.position.x + chord.position.drawSize is the right most position of a chord block.
-//   chordsInPlay.forEach((chord, index) => {
-//     colorByName(chord);
-//     if(chord.date < chord.endDate) {
-//       chord.position.drawSize += pixelSpeed;
-//       ctx.fillRect(chord.position.x, chord.position.y, chord.position.drawSize, canv.height);
-//       chord.date = new Date();
-//       chord.number -= pixelSpeed / 2;
-//     }
-//     else {
-//       // chord.position.drawSize -= 2;
-//       ctx.fillRect(chord.position.x, chord.position.y, chord.position.drawSize, canv.height);
-//     }
-//
-//     // If a chord is passing the play line, draw the play line a different color.
-//     if(chord.position.x < 300 && chord.position.x + chord.position.drawSize > 305) {
-//       drawPlayLine("rgb(179, 140, 120)");
-//     }
-//
-//     writeChordName(chord);
-//     setChordPosition(chord);
-//     removeChord(chord, index);
-//   });
-// }
-//
-// function writeChordName(chord) {
-//   ctx.fillStyle = "white";
-//   ctx.textAlign = "center";
-//   ctx.fillText(chord.name, chord.position.x + chord.position.drawSize + chord.number, (chord.position.y + canv.height) / 2, canv.width, canv.height);
-// }
-//
-// function setChordPosition(chord) {
-//   chord.position.x -= pixelSpeed;
-// }
-//
-// function removeChord(chord, index) {
-//   if(chord.position.x + chord.position.drawSize <= -1000) {
-//     chordsInPlay.splice(index, 1);
-//   }
-// }
 
 function drawPlayLine(color) {
   if(color) {
@@ -221,35 +159,6 @@ function calculateTempo(seconds) {
   let bpm = tempo / 60;
   return seconds / bpm;
 }
-
-// The colours of chords.
-// function colorByName(chord) {
-//   switch(chord.name) {
-//     case "C":
-//       ctx.fillStyle = "blue";
-//       break;
-//     case "D":
-//       ctx.fillStyle = "red";
-//       break;
-//     case "F":
-//       ctx.fillStyle = "purple";
-//       break;
-//     case "G":
-//       ctx.fillStyle = "green";
-//       break;
-//     case "Am":
-//       ctx.fillStyle = "orange";
-//       break;
-//     case "E":
-//       ctx.fillStyle = "pink";
-//       break;
-//     case "A":
-//       ctx.fillStyle = "#5cd3b8";
-//       break;
-//     case "Em":
-//       ctx.fillStyle = "#d3d35c"
-//   }
-// }
 
 // Used to pause the game.
 function keyPush(evt) {
