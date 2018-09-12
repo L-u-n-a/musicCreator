@@ -58,6 +58,8 @@ export class Note {
         // If the note touches the playLine, change the color of the playLine.
         if (this.x - 15 < 300 && this.x + 15 > 305) {
             this.playLine.draw("white");
+            
+            // The currentNote comes from the pitchdetect.js file.
             if (currentNote === this.note) {
                 this.correct = true;
                 this.color = "green";
