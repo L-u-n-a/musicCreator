@@ -13,4 +13,4 @@ Also hosted on: https://l-u-n-a.github.io/musicCreator
 
 ---
 
-sound detection system created by cwilso, see `[his Github repo here](https://github.com/cwilso/PitchDetect)`.
+sound detection system created by cwilso, see [his Github repo here](https://github.com/cwilso/PitchDetect).
