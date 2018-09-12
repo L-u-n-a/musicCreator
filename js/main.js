@@ -80,17 +80,20 @@ class Main {
         this.Esmall.drawString();
     }
 
+    // The game loop.
     song() {
 
         if(!this.pause) {
             // Clear the canvas for the next drawing cycle;
             this.clearCanvas();
 
+            // Draw new notes on the screen.
             this.theNotePlayer.addNotesInPlay();
 
             // Draw the line the player follows.
             this.line.draw("grey");
 
+            // Move the notes drawn on the screen.
             this.theNotePlayer.moveNotes();
 
             requestAnimationFrame(this.song.bind(this));
