@@ -1,11 +1,11 @@
-## A homebrew Yousician for the browser
+# A homebrew Yousician for the browser
 
 Includes pitch detection using the mic.<br />
 Includes tempo.
 
 ---
 
-###### Running the site
+## Running the site
 
 Run using an Http server.<br />
 In Linux just type: python -m SimpleHTTPServer 8000, inside the home dir.<br />
