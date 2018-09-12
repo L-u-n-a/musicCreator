@@ -25,8 +25,11 @@ class Main {
         // global time used for played notes and pausing the game.
         this.globalTime = performance.now();
 
+        // The tempo the song is played at (BPM)
+        this.tempo = 60;
+
         // This class keeps track of the current song and notes that need to be put in play.
-        this.theNotePlayer = new notePlayer(this.globalTime, 60);
+        this.theNotePlayer = new notePlayer(this.globalTime, this.tempo);
         this.line = new playLine(this.canv, this.ctx);
         this.availableSongs = new Songs(this.line);
 
@@ -124,5 +127,6 @@ class Main {
     }
 }
 
-let game = new Main();
-game.setup();
+// Create a new instance of Main to start the game.
+// Run setup() to start game loop.
+let game = new Main().setup();

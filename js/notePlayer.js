@@ -4,7 +4,7 @@ export class notePlayer {
     constructor(globalTime, tempo) {
         this.notes = [];
         this.notesInPlay = [];
-        this.globalTime = performance.now();
+        this.globalTime = globalTime;
         this.tempo = tempo;
     }
 
