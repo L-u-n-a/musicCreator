@@ -43,6 +43,13 @@ export class Note {
 
     drawNote() {
         this.ctx.fillStyle = this.color;
+
+        // Turn shadows on for note
+        this.ctx.shadowColor = 'black';
+        this.ctx.shadowBlur = 25;
+        this.ctx.shadowOffsetX = 10;
+        this.ctx.shadowOffsetY = 10;
+
         this.ctx.beginPath();
 
         if (this.length === 0.5) {
@@ -53,12 +60,18 @@ export class Note {
 
         this.ctx.stroke();
         this.ctx.fill();
+
+        // Turn shadows off, or all things on the canvas will have a shadow.
+        this.ctx.shadowBlur = 0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
+
         this.writeFinger(this.finger);
 
         // If the note touches the playLine, change the color of the playLine.
         if (this.x - 15 < 300 && this.x + 15 > 305) {
             this.playLine.draw("white");
-            
+
             // The currentNote comes from the pitchdetect.js file.
             if (currentNote === this.note) {
                 this.correct = true;
