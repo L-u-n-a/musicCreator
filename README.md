@@ -1,13 +1,22 @@
 # A homebrew Yousician for the browser
 
-Includes pitch detection using the mic.<br />
+Includes pitch detection using a mic.<br />
 Includes tempo.
 
 ## Running the site
 
+###### Currently only runs in Firefox!
+
 Run using an Http server.<br />
-In Linux just type: python -m SimpleHTTPServer 8000, inside the home dir.<br />
+In Linux just type: python -m SimpleHTTPServer 8000, inside the home dir.
+Then connect to localhost:8000 inside your browser.<br />
+
 Also hosted on: https://l-u-n-a.github.io/musicCreator
+
+---
+
+Please use this code for whatever you want.<br />
+It's messy and a little hacky, but it works well for simple songs.
 
 ---
 

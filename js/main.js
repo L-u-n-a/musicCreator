@@ -4,12 +4,7 @@ import { playLine } from './playLine.js';
 import { String } from './string.js'
 
 // Guitar strings
-var Ebig;
-var A;
-var D;
-var G;
-var B;
-var Esmall;
+var Ebig, A, D, G, B, Esmall;
 
 var pause = false;
 var background;
@@ -30,16 +25,11 @@ var theNotePlayer = new notePlayer(performance.now(), 60);
 var line = new playLine(canv, ctx);
 var availableSongs = new Songs(line);
 
+// Create keylistener for pauze button.
+document.addEventListener("keydown",keyPush);
 
-    document.addEventListener("keydown",keyPush);
-    backgroundCanvas = document.getElementById("backgroundCanvas");
-
-    // Set width of canvasses to screen size
-    canv.width = window.innerWidth;
-    canv.height = 500;
-    backgroundCanvas.width = canv.width;
-    backgroundCanvas.height = 500;
-    setup();
+// Setup resources for the game.
+setup();
 
 
 function musicNote(name, timeInterval) {
@@ -51,20 +41,28 @@ function musicNote(name, timeInterval) {
 }
 
 function setup() {
-  Ebig    = new String("Ebig", canvas, bctx, 140, "grey");
-  A       = new String("A", canvas, bctx, 200, "rgb(194, 192, 192)");
-  D       = new String("D", canvas, bctx, 260, "rgb(201, 201, 201)");
-  G       = new String("G", canvas, bctx, 320, "rgb(215, 215, 149)");
-  B       = new String("B", canvas, bctx, 380, "rgba(215, 215, 149, 0.75)");
-  Esmall  = new String("Esmall", canvas, bctx, 440, "rgba(215, 215, 149, 0.50)");
+    backgroundCanvas = document.getElementById("backgroundCanvas");
 
-  // Add a song to the note player.
-  theNotePlayer.setNotes(availableSongs.marryHadALittleLamp(canv,ctx,Ebig,A,D,G,B,Esmall));
+    // Set width of canvasses to screen size
+    canv.width = window.innerWidth;
+    canv.height = 500;
+    backgroundCanvas.width = canv.width;
+    backgroundCanvas.height = 500;
 
-  clearCanvas();
+    Ebig    = new String("Ebig", canvas, bctx, 140, "grey");
+    A       = new String("A", canvas, bctx, 200, "rgb(194, 192, 192)");
+    D       = new String("D", canvas, bctx, 260, "rgb(201, 201, 201)");
+    G       = new String("G", canvas, bctx, 320, "rgb(215, 215, 149)");
+    B       = new String("B", canvas, bctx, 380, "rgba(215, 215, 149, 0.75)");
+    Esmall  = new String("Esmall", canvas, bctx, 440, "rgba(215, 215, 149, 0.50)");
 
-  // The background load the background and strings. These are only loaded once this way.
-  setBackground();
+    // Add a song to the note player.
+    theNotePlayer.setNotes(availableSongs.marryHadALittleLamp(canv,ctx,Ebig,A,D,G,B,Esmall));
+
+    clearCanvas();
+
+    // The background load the background and strings. These are only loaded once this way.
+    setBackground();
 }
 
 function setBackground() {
@@ -102,10 +100,6 @@ function clearCanvas() {
   ctx.clearRect(0,0,canv.width,canv.height);
 }
 
-function addSecondsToGlobalTimer(seconds) {
-    globalTime = performance.now() + calculateTempo(seconds);
-}
-
 // Used to pause the game.
 function keyPush(evt) {
   switch(evt.keyCode) {
@@ -131,4 +125,5 @@ function keyPush(evt) {
       }
     }
 
+// Start game loop.
 requestAnimationFrame(song);
