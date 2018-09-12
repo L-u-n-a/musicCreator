@@ -1,4 +1,5 @@
-import {Songs} from './../songs/song.js';
+import { notePlayer } from './notePlayer.js';
+import { Songs } from './../songs/song.js';
 
 // Guitar strings
 var Ebig;
@@ -8,9 +9,6 @@ var G;
 var B;
 var Esmall;
 
-// The player that creates all of the seperate notes.
-var notePlayer;
-
 var pause = false;
 var background;
 var pixelSpeed = 3;
@@ -18,12 +16,13 @@ var pixelSpeed = 3;
 var chords = [];
 var chordsInPlay = [];
 
-var tempo = 60;
+var canv, ctx, bctx;
 
-// Global timer for new chords and notes to be put into played
-var globalTime = performance.now();
 // initialized when game is pauzed by pressing spacebar
 var pauzeDate;
+
+// This class keeps track of the current song and notes that need to be put in play.
+var theNotePlayer = new notePlayer(performance.now(), 60);
 
     document.addEventListener("keydown",keyPush);
     canv=document.getElementById("canvas");
@@ -57,42 +56,10 @@ function setup() {
   B       = new String("B", canvas, bctx, 380, "rgba(215, 215, 149, 0.75)");
   Esmall  = new String("Esmall", canvas, bctx, 440, "rgba(215, 215, 149, 0.50)");
 
-  // Create the notePlayer that plays all of the notes.
-  notePlayer = new notePlayer();
-
   // The song.
-  notePlayer.notes.push(new Note(0, 0.5, 0, canv, ctx, B.y, "B"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "E"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "E"));
-  notePlayer.notes.push(new Note(0, 0.5, 0, canv, ctx, G.y, "B"));
-  notePlayer.notes.push(new Note(1, 0.5, 0.5, canv, ctx, Esmall.y, "F"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.5, canv, ctx, Esmall.y, "G"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.5, canv, ctx, Esmall.y, "G"));
-  notePlayer.notes.push(new Note(1, 0.5, 0.5, canv, ctx, Esmall.y, "F"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "E"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.5, canv, ctx, B.y, "D"));
-  notePlayer.notes.push(new Note(1, 0.5, 0.5, canv, ctx, B.y, "C"));
-  notePlayer.notes.push(new Note(1, 0.5, 0.5, canv, ctx, B.y, "C"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.5, canv, ctx, B.y, "D"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "E"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.8, canv, ctx, Esmall.y, "E"));
-  notePlayer.notes.push(new Note(3, 0.25, 0.25, canv, ctx, B.y, "D"));
-  notePlayer.notes.push(new Note(3, 0.25, 1, canv, ctx, B.y, "D"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "A"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "A"));
-  notePlayer.notes.push(new Note(1, 0.5, 0.5, canv, ctx, Esmall.y, "A"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.5, canv, ctx, Esmall.y, "A"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.5, canv, ctx, Esmall.y, "A"));
-  notePlayer.notes.push(new Note(1, 0.5, 0.5, canv, ctx, Esmall.y, "A"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "A"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.5, canv, ctx, B.y, "A"));
-  notePlayer.notes.push(new Note(1, 0.5, 0.5, canv, ctx, B.y, "A"));
-  notePlayer.notes.push(new Note(1, 0.5, 0.5, canv, ctx, B.y, "A"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.5, canv, ctx, B.y, "A"));
-  notePlayer.notes.push(new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "A"));
-  notePlayer.notes.push(new Note(3, 0.5, 0.8, canv, ctx, B.y, "A"));
-  notePlayer.notes.push(new Note(1, 0.25, 0.25, canv, ctx, B.y, "A"));
-  notePlayer.notes.push(new Note(1, 0.25, 1, canv, ctx, B.y, "A"));
+  console.log(notePlayer);
+  console.log(Songs);
+  theNotePlayer.setNotes(Songs.prototype.marryHadALittleLamp(canv,ctx,Ebig,A,D,G,B,Esmall));
 
   clearCanvas();
 
@@ -126,12 +93,12 @@ function song() {
     // Clear the canvas for the next drawing cycle;
     clearCanvas();
 
-    notePlayer.addNotesInPlay();
+    theNotePlayer.addNotesInPlay();
 
     // Draw the line the player follows.
     drawPlayLine();
 
-    notePlayer.moveNotes();
+    theNotePlayer.moveNotes();
 
     requestAnimationFrame(song);
   }
@@ -153,11 +120,6 @@ function clearCanvas() {
 
 function addSecondsToGlobalTimer(seconds) {
     globalTime = performance.now() + calculateTempo(seconds);
-}
-
-function calculateTempo(seconds) {
-  let bpm = tempo / 60;
-  return seconds / bpm;
 }
 
 // Used to pause the game.

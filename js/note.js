@@ -47,7 +47,7 @@ function Note(finger, length, time, canvas, ctx, y, note) {
     ctx.font = "20px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText(this.finger, this.x, this.writeHeight, canv.width, canv.height);
+    ctx.fillText(this.finger, this.x, this.writeHeight, canvas.width, canvas.height);
   };
 
   this.drawNote = function() {

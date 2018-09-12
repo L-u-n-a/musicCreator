@@ -1,6 +1,6 @@
 export class Songs {
 
-    marryHadALittleLamp() {
+    marryHadALittleLamp(canv, ctx, Ebig,A,D,G,B,Esmall) {
         return [
             new Note(0, 0.5, 0, canv, ctx, B.y, "B"),
             new Note(0, 0.5, 0.5, canv, ctx, Esmall.y, "E"),
@@ -34,6 +34,6 @@ export class Songs {
             new Note(3, 0.5, 0.8, canv, ctx, B.y, "A"),
             new Note(1, 0.25, 0.25, canv, ctx, B.y, "A"),
             new Note(1, 0.25, 1, canv, ctx, B.y, "A"),
-        ]
-    }
+        ];
+    };
 }

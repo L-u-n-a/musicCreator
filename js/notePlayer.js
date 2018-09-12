@@ -1,16 +1,20 @@
 /*jshint esversion: 6*/
-function notePlayer() {
+export class notePlayer {
 
-  this.notes = [];
-  this.notesInPlay = [];
+  constructor(globalTime, tempo) {
+      this.notes = [];
+      this.notesInPlay = [];
+      this.globalTime = performance.now();
+      this.tempo = tempo;
+  }
 
-  this.addSecondsToGlobalTimer = function(seconds) {
-    globalTime += calculateTempo(seconds * 1000);
+  addSecondsToGlobalTimer(seconds) {
+    this.globalTime += this.calculateTempo(seconds * 1000);
   };
 
-  this.addNotesInPlay = function(note) {
+  addNotesInPlay(note) {
 
-      if(performance.now() >= globalTime && this.notes.length > 0) {
+      if(performance.now() >= this.globalTime && this.notes.length > 0) {
           let nextNote = this.notes[0]
           this.notesInPlay.push(nextNote);
 
@@ -23,7 +27,7 @@ function notePlayer() {
       }
   };
 
-  this.removeNote = function(note) {
+  removeNote(note) {
     if(note.x <= -100) {
       // Set note to null so it will be garbage collected.
       note = null;
@@ -31,7 +35,7 @@ function notePlayer() {
     }
   };
 
-  this.moveNotes = function() {
+  moveNotes() {
     this.notesInPlay.forEach((note) => {
       note.drawNote();
       note.x -= 2;
@@ -43,4 +47,13 @@ function notePlayer() {
         this.removeNote(nextNote);
     }
   };
+
+  calculateTempo(seconds) {
+    let bpm = this.tempo / 60;
+    return seconds / bpm;
+  }
+
+  setNotes(notes) {
+      this.notes = notes;
+  }
 }
