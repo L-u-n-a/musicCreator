@@ -1,6 +1,6 @@
 import { Note } from './../note.js'
 
-export class Songs {
+export class Song {
 
     constructor(playLine) {
         this.playLine = playLine;

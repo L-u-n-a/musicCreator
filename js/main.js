@@ -1,12 +1,12 @@
 import { notePlayer } from './notePlayer.js';
-import { Songs } from './songs/song.js';
+import { Song } from './songs/song.js';
 import { playLine } from './playLine.js';
 import { String } from './string.js';
 
 class Main {
 
     constructor() {
-        // Guitar strings
+        // Guitar strings, initiated in the setup().
         this.Ebig;
         this.A;
         this.D;
@@ -16,6 +16,8 @@ class Main {
         this.pause = false;
         this.background;
 
+        // The main canvas moving and changing game elements are drawn on.
+        // There is also a /*backgroundCanvas*/ for elements that are only drawn once.
         this.canv = document.getElementById("canvas");
         this.ctx = this.canv.getContext("2d");
 
@@ -28,22 +30,36 @@ class Main {
         // This class keeps track of the current song and notes that need to be put in play.
         this.theNotePlayer = new notePlayer(this.tempo);
         this.line = new playLine(this.canv, this.ctx);
-        this.availableSongs = new Songs(this.line);
+        this.availableSongs = new Song(this.line);
 
         // Create keylistener for pauze button.
         document.addEventListener("keydown", this.keyPush.bind(this));
     }
 
+    /**
+    * This is run once when the program starts.
+    * It sets up all of the componente needed to run the game:
+    *
+    * The canvas on which the game is drawn,
+    * The guitar strings,
+    * The noteplayer that keeps track of and adds new notes in play,
+    * A song is added to the notePlayer,
+    * The function then starts the game loop
+    *
+    **/
     setup() {
+        // Get the background canvas we are going to draw on.
+        // This canvas is used for elements that only have to be drawn once.
         let backgroundCanvas = document.getElementById("backgroundCanvas");
         let bctx = backgroundCanvas.getContext("2d");;
 
-        // Set width of canvasses to screen size
+        // Set canvasses width to screen size.
         this.canv.width = window.innerWidth;
         this.canv.height = 500;
         backgroundCanvas.width = this.canv.width;
         backgroundCanvas.height = 500;
 
+        // Create the guitar strings.
         this.Ebig = new String("Ebig", backgroundCanvas, bctx, 140, "grey");
         this.A = new String("A", backgroundCanvas, bctx, 200, "rgb(194, 192, 192)");
         this.D = new String("D", backgroundCanvas, bctx, 260, "rgb(201, 201, 201)");
@@ -54,13 +70,11 @@ class Main {
         // Add a song to the note player.
         this.theNotePlayer.setNotes(this.availableSongs.marryHadALittleLamp(this.canv, this.ctx, this.Ebig, this.A, this.D, this.G, this.B, this.Esmall));
 
-        this.clearCanvas();
-
         // The background load the background and strings. These are only loaded once this way.
         this.setBackground(bctx);
 
         // Start game loop.
-        requestAnimationFrame(this.song.bind(this));
+        requestAnimationFrame(this.GameLoop.bind(this));
     }
 
     setBackground(bctx) {
@@ -78,7 +92,7 @@ class Main {
     }
 
     // The game loop.
-    song() {
+    GameLoop() {
 
         if (!this.pause) {
             // Clear the canvas for the next drawing cycle;
@@ -93,7 +107,7 @@ class Main {
             // Move the notes drawn on the screen.
             this.theNotePlayer.moveNotes();
 
-            requestAnimationFrame(this.song.bind(this));
+            requestAnimationFrame(this.GameLoop.bind(this));
         }
     }
 
@@ -139,7 +153,7 @@ class Main {
                     this.pause = false;
 
                     // Restart the loop.
-                    requestAnimationFrame(this.song.bind(this));
+                    requestAnimationFrame(this.GameLoop.bind(this));
                 }
                 break;
         }
